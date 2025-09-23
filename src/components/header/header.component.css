@@ -1,0 +1,13 @@
+header {
+  max-width: 1900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 5rem;
+}
+.login {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
