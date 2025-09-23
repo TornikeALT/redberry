@@ -1,10 +1,10 @@
 header {
-  max-width: 1900px;
+  max-width: 1850px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
-  padding: 0 5rem;
+  padding: 1rem;
 }
 .login {
   display: flex;

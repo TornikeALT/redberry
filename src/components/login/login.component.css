@@ -3,6 +3,9 @@
   align-items: center;
   gap: 12rem;
 }
+.login_img {
+  min-height: 95vh;
+}
 .login_title {
   margin-bottom: 3rem;
   font-size: 42px;
@@ -35,7 +38,8 @@
   gap: 5px;
   margin-top: 1.5rem;
 }
-.not_member span {
+.not_member a {
   color: var(--red);
   font-weight: bold;
+  text-decoration: none;
 }
