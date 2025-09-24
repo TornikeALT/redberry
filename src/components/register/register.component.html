@@ -1,1 +1,26 @@
-<p>register works!</p>
+<div class="register">
+  <img src="/login.png" alt="fashin couple walking" class="register_img" />
+  <div class="register_form">
+    <h1 class="register_title">Register</h1>
+    <form>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Username *"
+      />
+      <input type="email" placeholder="email *" id="email" />
+      <input type="password" placeholder="password *" id="password" />
+      <input
+        type="password"
+        placeholder="Password Confirm *"
+        id="passwordConfirm"
+      />
+      <button class="login_btn">Log In</button>
+    </form>
+    <div class="not_member">
+      <p>Already member ?</p>
+      <a routerLink="/login">Log In</a>
+    </div>
+  </div>
+</div>

@@ -21,7 +21,7 @@
 }
 .login_form input {
   line-height: 3rem;
-  padding-left: 5px;
+  padding-left: 15px;
   border-radius: 15px;
   border: 1px solid var(--grey);
 }
