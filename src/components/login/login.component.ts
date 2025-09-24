@@ -26,11 +26,11 @@ export class LoginComponent {
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.token);
+        this.authService.setToken(response.token);
         this.router.navigate(['/products']);
       },
       error: (err) => {
-        this.errorMessage = 'Invalid email or password';
+        this.errorMessage = err.error?.message || 'invalid email or pwd';
       },
     });
   }
