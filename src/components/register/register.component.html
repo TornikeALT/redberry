@@ -2,22 +2,47 @@
   <img src="/login.png" alt="fashin couple walking" class="register_img" />
   <div class="register_form">
     <h1 class="register_title">Register</h1>
+
     <form>
+      <label for="avatar">Upload avatar (optional):</label>
+      <input type="file" (change)="onFileChange($event)" accept="image/*" />
       <input
         type="text"
         name="username"
         id="username"
         placeholder="Username *"
+        [(ngModel)]="username"
+        required
       />
-      <input type="email" placeholder="email *" id="email" />
-      <input type="password" placeholder="password *" id="password" />
+      <input
+        type="email"
+        name="email"
+        placeholder="email *"
+        id="email"
+        [(ngModel)]="email"
+        required
+      />
+      <input
+        type="password"
+        placeholder="password *"
+        id="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+      />
       <input
         type="password"
         placeholder="Password Confirm *"
         id="passwordConfirm"
+        name="passwordConfirm"
+        [(ngModel)]="password_confirmation"
+        required
       />
-      <button class="login_btn">Log In</button>
+      <button class="login_btn" (click)="onSubmit()">Register</button>
     </form>
+    <div *ngIf="errorMsg" class="error-message">
+      {{ errorMsg }}
+    </div>
     <div class="not_member">
       <p>Already member ?</p>
       <a routerLink="/login">Log In</a>

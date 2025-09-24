@@ -18,4 +18,7 @@ export class HeaderComponent {
       this.isLoggedIn = status;
     });
   }
+  logOut() {
+    this.authService.logOut();
+  }
 }

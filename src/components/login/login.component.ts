@@ -30,7 +30,7 @@ export class LoginComponent {
         this.router.navigate(['/products']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'invalid email or pwd';
+        this.errorMessage = err.error?.message || 'invalid email or passowrd';
       },
     });
   }
