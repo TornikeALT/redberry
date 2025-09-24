@@ -8,6 +8,7 @@
         placeholder="email *"
         [(ngModel)]="email"
         name="email"
+        email
         required
       />
       <input
@@ -19,6 +20,9 @@
       />
       <button type="submit" class="login_btn">Log In</button>
     </form>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
     <div class="not_member">
       <p>Not a member ?</p>
       <a routerLink="/register">Register</a>
