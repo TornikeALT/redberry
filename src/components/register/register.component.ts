@@ -17,6 +17,7 @@ export class RegisterComponent {
   password_confirmation = '';
   errorMsg = '';
   avatarFile: File | null = null;
+  avatarPreview: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -24,6 +25,22 @@ export class RegisterComponent {
     const file = event.target.files[0];
     if (file) {
       this.avatarFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.avatarPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeAvatar() {
+    this.avatarFile = null;
+    this.avatarPreview = null;
+
+    const inputEl = document.getElementById('avatarInput') as HTMLInputElement;
+    if (inputEl) {
+      inputEl.value = '';
     }
   }
 

@@ -4,8 +4,26 @@
     <h1 class="register_title">Register</h1>
 
     <form>
-      <label for="avatar">Upload avatar (optional):</label>
-      <input type="file" (change)="onFileChange($event)" accept="image/*" />
+      <div class="avatar_upload">
+        <img
+          [src]="avatarPreview || '/avatar-big.png'"
+          alt="Avatar"
+          class="avatar_preview"
+        />
+        <div class="avatar_actions">
+          <label for="avatarInput" class="upload_label">Upload New</label>
+          <input
+            type="file"
+            id="avatarInput"
+            (change)="onFileChange($event)"
+            accept="image/*"
+            hidden
+          />
+          <button type="button" class="remove_btn" (click)="removeAvatar()">
+            Remove
+          </button>
+        </div>
+      </div>
       <input
         type="text"
         name="username"
