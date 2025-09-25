@@ -32,6 +32,9 @@
   line-height: 3.5rem;
   border-radius: 15px;
 }
+.login_btn:hover {
+  cursor: pointer;
+}
 .not_member {
   display: flex;
   justify-content: center;

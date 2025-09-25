@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -11,13 +12,21 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   isLoggedIn = false;
+  avatarUrl: string | null = null;
 
-  constructor(private authService: AuthService) {}
-  ngOnInit() {
+  constructor(
+    private authService: AuthService,
+    private userService: UserService
+  ) {
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;
     });
+
+    this.userService.avatar$.subscribe((url) => {
+      this.avatarUrl = url;
+    });
   }
+
   logOut() {
     this.authService.logOut();
   }

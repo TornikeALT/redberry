@@ -32,6 +32,9 @@
   line-height: 3.5rem;
   border-radius: 15px;
 }
+.login_btn:hover {
+  cursor: pointer;
+}
 .not_member {
   display: flex;
   justify-content: center;
@@ -54,15 +57,38 @@
 .upload_label {
   font-size: 15px;
 }
+.upload_label:hover {
+  cursor: pointer;
+}
 .remove_btn {
   background-color: transparent;
   border: none;
   font-size: 15px;
+}
+.remove_btn:hover {
+  cursor: pointer;
 }
 .avatar_preview {
   width: 90px;
   height: 90px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #ccc;
+}
+.password_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password_container input {
+  padding-right: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.eye_icon {
+  position: absolute;
+  right: 0.5rem;
+  cursor: pointer;
+  user-select: none;
 }

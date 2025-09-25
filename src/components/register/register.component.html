@@ -19,6 +19,7 @@
             accept="image/*"
             hidden
           />
+
           <button type="button" class="remove_btn" (click)="removeAvatar()">
             Remove
           </button>
@@ -40,22 +41,41 @@
         [(ngModel)]="email"
         required
       />
-      <input
-        type="password"
-        placeholder="password *"
-        id="password"
-        name="password"
-        [(ngModel)]="password"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password Confirm *"
-        id="passwordConfirm"
-        name="passwordConfirm"
-        [(ngModel)]="password_confirmation"
-        required
-      />
+      <div class="password_container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Password"
+          [(ngModel)]="password"
+          id="password"
+          name="password"
+        />
+        <img
+          src="eye.png"
+          alt="Show Password"
+          class="eye_icon"
+          (mousedown)="showPassword = true"
+          (mouseup)="showPassword = false"
+          (mouseleave)="showPassword = false"
+        />
+      </div>
+      <div class="password_container">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          placeholder="Confirm Password"
+          [(ngModel)]="password_confirmation"
+          id="passwordConfirm"
+          name="passwordConfirm"
+          required
+        />
+        <img
+          src="eye.png"
+          alt="Show Password"
+          class="eye_icon"
+          (mousedown)="showConfirmPassword = true"
+          (mouseup)="showConfirmPassword = false"
+          (mouseleave)="showConfirmPassword = false"
+        />
+      </div>
       <button class="login_btn" (click)="onSubmit()">Register</button>
     </form>
     <div *ngIf="errorMsg" class="error-message">

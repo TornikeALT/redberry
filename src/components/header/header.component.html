@@ -2,12 +2,15 @@
   <a routerLink="">
     <img src="/Logo.png" alt="main logo" />
   </a>
-
   <div *ngIf="isLoggedIn; else guest">
     <div class="user">
-      <img src="/cart.png" alt="cart" />
-      <img src="/avatar-small.png" alt="small avatar" />
-      <img src="/vector.png" alt="vector down" />
+      <img src="/cart.png" alt="cart" class="cart" />
+      <img
+        [src]="avatarUrl || '/avatar-small.png'"
+        alt="small avatar"
+        class="avatar"
+      />
+      <img src="/vector.png" alt="vector down" class="vector" />
     </div>
   </div>
   <ng-template #guest>
@@ -16,5 +19,4 @@
       <a routerLink="login">Log In</a>
     </div>
   </ng-template>
-  <button (click)="logOut()">logout</button>
 </header>
