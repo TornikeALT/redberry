@@ -7,3 +7,8 @@
   --grey: #e1dfe1;
   --red: #ff4000;
 }
+
+body {
+  font-family: "Ubuntu", sans-serif;
+  font-style: normal;
+}

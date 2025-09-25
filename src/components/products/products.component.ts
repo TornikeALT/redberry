@@ -41,16 +41,13 @@ export class ProductsComponent implements OnInit {
   get pageNumbers(): number[] {
     const pages: number[] = [];
     const last = this.meta.last_page || 1;
-
-    // Simple logic to show first 2, last 2, and current ±1
     for (let i = 1; i <= last; i++) {
       if (i <= 2 || i > last - 2 || Math.abs(i - this.currentPage) <= 1) {
         pages.push(i);
       } else if (pages[pages.length - 1] !== -1) {
-        pages.push(-1); // -1 will represent "..."
+        pages.push(-1);
       }
     }
-
     return pages;
   }
 

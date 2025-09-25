@@ -1,8 +1,18 @@
 .products_wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 .products_wrapper img {
   max-width: 400px;
+}
+.active {
+  border: 1px solid red;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  border: 1px solid rgb(203, 201, 201);
 }
