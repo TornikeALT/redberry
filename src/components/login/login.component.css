@@ -46,3 +46,21 @@
   font-weight: bold;
   text-decoration: none;
 }
+.password_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password_container input {
+  padding-right: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.eye_icon {
+  position: absolute;
+  right: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
