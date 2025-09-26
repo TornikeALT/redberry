@@ -1,6 +1,36 @@
 <div class="products">
-  <div>
+  <div class="title">
     <h1>Products</h1>
+    <div class="filter_container">
+      <span class="showing_results">Showing 1-10 of 100 Results</span>
+      <div class="stick"></div>
+      <div class="filter">
+        <img src="/filter.png" alt="filter" (click)="toggleFilterDropdown()" />
+        <span>Filter</span>
+        <div
+          class="filter_dropdown"
+          *ngIf="showFilterDropdown"
+          (click)="$event.stopPropagation()"
+        >
+          <h3>Select Price</h3>
+          <div class="filter_inputs">
+            <div class="select_prices">
+              <input
+                type="number"
+                [(ngModel)]="minPrice"
+                placeholder="from *"
+              />
+              <input type="number" [(ngModel)]="maxPrice" placeholder="to *" />
+            </div>
+            <button (click)="applyFilter()" class="filter_btn">Apply</button>
+          </div>
+        </div>
+      </div>
+      <div class="sort">
+        <span>Sort By</span>
+        <img src="/vector.png" alt="vector down" />
+      </div>
+    </div>
   </div>
   <div *ngIf="products.length > 0; else noProducts" class="products_wrapper">
     <div *ngFor="let product of products" class="card">
@@ -11,7 +41,7 @@
       </div>
     </div>
   </div>
-  <div class="pagination">
+  <div class="pagination" *ngIf="!isFiltered() && meta.last_page > 1">
     <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
       Previous
     </button>
