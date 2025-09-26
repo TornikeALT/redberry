@@ -48,6 +48,12 @@ export class ProductDetailComponent implements OnInit {
   }
   selectColor(color: string) {
     this.selectedColor = color;
+
+    // Find the index of the selected color
+    const index = this.product.available_colors.indexOf(color);
+    if (index !== -1) {
+      this.mainImage = this.product.images[index];
+    }
   }
   selectSize(size: string) {
     this.selectedSize = size;

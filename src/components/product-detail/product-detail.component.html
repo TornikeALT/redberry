@@ -10,10 +10,13 @@
 <div *ngIf="!loading && product" class="product_details">
   <div class="prev_images">
     <img
-      src="{{ img }}"
-      alt="images"
       *ngFor="let img of product.images"
-      (click)="mainImage = img"
+      [src]="img"
+      alt="images"
+      (click)="
+        mainImage = img;
+        selectedColor = product.available_colors[product.images.indexOf(img)]
+      "
       [class.selected]="mainImage === img"
     />
   </div>
