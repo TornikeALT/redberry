@@ -18,6 +18,7 @@
           class="filter_dropdown"
           *ngIf="showFilterDropdown"
           (click)="$event.stopPropagation()"
+          #filterDropdown
         >
           <h3>Select Price</h3>
           <div class="filter_inputs">
@@ -46,6 +47,7 @@
             *ngFor="let option of sortOptions"
             (click)="applySort(option.value)"
             class="sort_option"
+            #sortDropdown
           >
             {{ option.label }}
           </div>
@@ -63,14 +65,13 @@
     </div>
   </div>
   <div class="pagination" *ngIf="!isFiltered() && meta.last_page > 1">
-    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
-      Previous
-    </button>
+    <img src="/prev.png" (click)="goToPage(currentPage - 1)" class="prev" />
     <ng-container *ngFor="let page of pageNumbers">
       <button
         *ngIf="page !== -1"
         (click)="goToPage(page)"
         [class.active]="page === currentPage"
+        class="pages"
       >
         {{ page }}
       </button>
@@ -78,10 +79,11 @@
     </ng-container>
 
     <button
+      class="next"
       (click)="goToPage(currentPage + 1)"
       [disabled]="currentPage === meta.last_page"
     >
-      Next
+      <img src="/next.png" alt="Next" />
     </button>
   </div>
   <ng-template #noProducts>

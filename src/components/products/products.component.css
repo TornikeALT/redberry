@@ -14,8 +14,9 @@
   max-width: 1850px;
 }
 
-.active {
-  border: 1px solid red;
+.pages.active {
+  border: 1px solid #ff4000;
+  color: #ff4000;
 }
 .card {
   display: flex;
@@ -25,6 +26,7 @@
   border: 1px solid rgb(203, 201, 201);
   max-width: 412px;
   width: 100%;
+  cursor: pointer;
 }
 .filter_container {
   display: flex;
@@ -119,4 +121,28 @@
 .sort_option:hover {
   color: #ff4000;
   cursor: pointer;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.pages {
+  background: transparent;
+  border: 1px solid #f8f6f7;
+  border-radius: 8px;
+  max-width: 32px;
+  min-height: 32px;
+  width: 100%;
+  color: #212b36;
+}
+.pages:hover {
+  cursor: pointer;
+}
+.prev,
+.next {
+  cursor: pointer;
+  border: none;
+  background: transparent;
 }

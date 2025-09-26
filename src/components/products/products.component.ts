@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { FetchProductsService } from '../../services/fetch-products.service';
 import { FormsModule } from '@angular/forms';
 
@@ -22,6 +26,9 @@ export class ProductsComponent implements OnInit {
   hideResults: boolean = false;
   showSortBy = false;
   sortOption: string = '';
+
+  @ViewChild('sortDropdown') sortDropdown!: ElementRef;
+  @ViewChild('filterDropdown') filterDropdown!: ElementRef;
 
   sortOptions = [
     { label: 'New Products First', value: 'created_at' },
@@ -54,6 +61,26 @@ export class ProductsComponent implements OnInit {
   }
   toggleSortDropDown() {
     this.showSortBy = !this.showSortBy;
+  }
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Hide sort dropdown if click is outside
+    if (
+      this.showSortBy &&
+      this.sortDropdown &&
+      !this.sortDropdown.nativeElement.contains(event.target)
+    ) {
+      this.showSortBy = false;
+    }
+
+    // Hide filter dropdown if click is outside
+    if (
+      this.showFilterDropdown &&
+      this.filterDropdown &&
+      !this.filterDropdown.nativeElement.contains(event.target)
+    ) {
+      this.showFilterDropdown = false;
+    }
   }
 
   applyFilter() {
