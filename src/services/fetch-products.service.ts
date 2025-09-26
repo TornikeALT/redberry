@@ -16,16 +16,14 @@ export class FetchProductsService {
   getProducts(
     page: number = 1,
     minPrice?: number | null,
-    maxPrice?: number | null
+    maxPrice?: number | null,
+    sort?: string
   ): Observable<any> {
     let params = new HttpParams().set('page', page);
 
-    if (minPrice != null) {
-      params = params.set('filter[price_from]', minPrice);
-    }
-    if (maxPrice != null) {
-      params = params.set('filter[price_to]', maxPrice);
-    }
+    if (minPrice != null) params = params.set('filter[price_from]', minPrice);
+    if (maxPrice != null) params = params.set('filter[price_to]', maxPrice);
+    if (sort) params = params.set('sort', sort);
 
     return this.http.get<any>(this.apiUrl, { params });
   }

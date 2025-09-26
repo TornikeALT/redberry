@@ -19,6 +19,30 @@ export class ProductsComponent implements OnInit {
   showFilterDropdown = false;
   minPrice: number | null = null;
   maxPrice: number | null = null;
+  hideResults: boolean = false;
+  showSortBy = false;
+  sortOption: string = '';
+
+  sortOptions = [
+    { label: 'New Products First', value: 'created_at' },
+    { label: 'Price, low to high', value: 'price' },
+    { label: 'Price, high to low', value: '-price' },
+  ];
+
+  applySort(option: string) {
+    this.sortOption = option;
+    this.loadProducts(
+      this.currentPage,
+      this.minPrice,
+      this.maxPrice,
+      this.sortOption
+    );
+    this.showSortBy = false;
+  }
+  sortOptionLabel(): string {
+    const selected = this.sortOptions.find((o) => o.value === this.sortOption);
+    return selected ? selected.label : 'Sort By';
+  }
 
   constructor(private productService: FetchProductsService) {}
 
@@ -28,6 +52,10 @@ export class ProductsComponent implements OnInit {
   toggleFilterDropdown() {
     this.showFilterDropdown = !this.showFilterDropdown;
   }
+  toggleSortDropDown() {
+    this.showSortBy = !this.showSortBy;
+  }
+
   applyFilter() {
     this.currentPage = 1; // reset to first page
     this.loadProducts(this.currentPage, this.minPrice, this.maxPrice);
@@ -37,9 +65,10 @@ export class ProductsComponent implements OnInit {
   loadProducts(
     page: number,
     minPrice?: number | null,
-    maxPrice?: number | null
+    maxPrice?: number | null,
+    sort?: string
   ) {
-    this.productService.getProducts(page, minPrice, maxPrice).subscribe({
+    this.productService.getProducts(page, minPrice, maxPrice, sort).subscribe({
       next: (response) => {
         this.products = response.data;
         this.links = response.links;
