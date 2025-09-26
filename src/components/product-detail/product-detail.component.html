@@ -1,25 +1,71 @@
 <div *ngIf="loading">Loading product...</div>
-
+<button
+  type="button"
+  class="back_btn"
+  (click)="goBack()"
+  *ngIf="!loading && product"
+>
+  Listing / Product
+</button>
 <div *ngIf="!loading && product" class="product_details">
   <div class="prev_images">
-    <img src="{{ img }}" alt="images" *ngFor="let img of product.images" />
+    <img
+      src="{{ img }}"
+      alt="images"
+      *ngFor="let img of product.images"
+      (click)="mainImage = img"
+      [class.selected]="mainImage === img"
+    />
   </div>
-  <img
-    src="{{ product.cover_image }}"
-    alt="{{ product.cover_image }}"
-    class="main_image"
-  />
+  <img [src]="mainImage" alt="{{ product.cover_image }}" class="main_image" />
   <div class="description">
     <h2 class="product_name">{{ product.name }}</h2>
     <p class="product_price">$ {{ product.price }}</p>
-    <span>Color: {{ selectedColor }}</span>
+    <span class="color_title">Color: {{ selectedColor }}</span>
     <div class="colors_wrapper">
       <div
-        [style.background-color]="color"
-        class="color"
+        class="color_outer"
         *ngFor="let color of product.available_colors"
         (click)="selectColor(color)"
-      ></div>
+        [class.active]="selectedColor === color"
+      >
+        <div class="color" [style.background-color]="color"></div>
+      </div>
+    </div>
+    <span>Size: {{ selectedSize }}</span>
+    <div class="sizes_wrapper">
+      <div
+        *ngFor="let size of product.available_sizes"
+        (click)="selectSize(size)"
+        class="size"
+        [class.border]="selectedSize === size"
+      >
+        {{ size }}
+      </div>
+    </div>
+    <span>Quantity</span>
+    <div class="quantity_selector" *ngIf="product.quantity">
+      <select id="quantity" [(ngModel)]="selectedQuantity">
+        <option
+          *ngFor="let qty of getAvailableQuantities(product.quantity)"
+          [value]="qty"
+        >
+          {{ qty }}
+        </option>
+      </select>
+    </div>
+    <div class="add_to_cart">
+      <img src="/white-cart.png" alt="cart" />
+      <span>Add To Cart</span>
+    </div>
+    <div class="seperator"></div>
+    <div class="details">
+      <div class="details_img">
+        <h2>Details</h2>
+        <img src="{{ product.brand.image }}" alt="{{ product.brand.image }}" />
+      </div>
+      <span class="brand">Brand: {{ product.brand.name }}</span>
+      <p class="desc">{{ product.description }}</p>
     </div>
   </div>
 </div>

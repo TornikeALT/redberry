@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FetchProductsService } from '../../services/fetch-products.service';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -54,10 +54,13 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productService: FetchProductsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    const pageFromQuery = Number(this.route.snapshot.queryParamMap.get('page'));
+    this.currentPage = pageFromQuery || 1;
     this.loadProducts(this.currentPage);
   }
   toggleFilterDropdown() {
@@ -139,6 +142,8 @@ export class ProductsComponent implements OnInit {
     return this.minPrice != null || this.maxPrice != null;
   }
   goToProduct(id: number) {
-    this.router.navigate(['/products', id]);
+    this.router.navigate(['/products', id], {
+      queryParams: { page: this.currentPage },
+    });
   }
 }
