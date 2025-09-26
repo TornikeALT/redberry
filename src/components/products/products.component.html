@@ -57,7 +57,11 @@
   </div>
   <div *ngIf="products.length > 0; else noProducts" class="products_wrapper">
     <div *ngFor="let product of products" class="card">
-      <img src="{{ product.cover_image }}" alt="{{ product.cover_image }}" />
+      <img
+        src="{{ product.cover_image }}"
+        alt="{{ product.cover_image }}"
+        (click)="goToProduct(product.id)"
+      />
       <div>
         <h3>{{ product.name }}</h3>
         <p>$ {{ product.price }}</p>

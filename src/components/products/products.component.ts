@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FetchProductsService } from '../../services/fetch-products.service';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -51,7 +52,10 @@ export class ProductsComponent implements OnInit {
     return selected ? selected.label : 'Sort By';
   }
 
-  constructor(private productService: FetchProductsService) {}
+  constructor(
+    private productService: FetchProductsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts(this.currentPage);
@@ -64,7 +68,6 @@ export class ProductsComponent implements OnInit {
   }
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    // Hide sort dropdown if click is outside
     if (
       this.showSortBy &&
       this.sortDropdown &&
@@ -72,8 +75,6 @@ export class ProductsComponent implements OnInit {
     ) {
       this.showSortBy = false;
     }
-
-    // Hide filter dropdown if click is outside
     if (
       this.showFilterDropdown &&
       this.filterDropdown &&
@@ -84,7 +85,7 @@ export class ProductsComponent implements OnInit {
   }
 
   applyFilter() {
-    this.currentPage = 1; // reset to first page
+    this.currentPage = 1;
     this.loadProducts(this.currentPage, this.minPrice, this.maxPrice);
     this.showFilterDropdown = false;
   }
@@ -136,5 +137,8 @@ export class ProductsComponent implements OnInit {
   }
   isFiltered(): boolean {
     return this.minPrice != null || this.maxPrice != null;
+  }
+  goToProduct(id: number) {
+    this.router.navigate(['/products', id]);
   }
 }

@@ -1,1 +1,29 @@
-<p>product-detail works!</p>
+<div *ngIf="loading">Loading product...</div>
+
+<div *ngIf="!loading && product" class="product_details">
+  <div class="prev_images">
+    <img src="{{ img }}" alt="images" *ngFor="let img of product.images" />
+  </div>
+  <img
+    src="{{ product.cover_image }}"
+    alt="{{ product.cover_image }}"
+    class="main_image"
+  />
+  <div class="description">
+    <h2 class="product_name">{{ product.name }}</h2>
+    <p class="product_price">$ {{ product.price }}</p>
+    <span>Color: {{ selectedColor }}</span>
+    <div class="colors_wrapper">
+      <div
+        [style.background-color]="color"
+        class="color"
+        *ngFor="let color of product.available_colors"
+        (click)="selectColor(color)"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading && !product">
+  <p>Product not found.</p>
+</div>

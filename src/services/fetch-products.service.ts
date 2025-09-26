@@ -10,9 +10,6 @@ export class FetchProductsService {
 
   constructor(private http: HttpClient) {}
 
-  // getProducts(page: number = 1): Observable<any> {
-  //   return this.http.get<any>(`${this.apiUrl}?page=${page}`);
-  // }
   getProducts(
     page: number = 1,
     minPrice?: number | null,
@@ -26,5 +23,8 @@ export class FetchProductsService {
     if (sort) params = params.set('sort', sort);
 
     return this.http.get<any>(this.apiUrl, { params });
+  }
+  getProductById(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 }
