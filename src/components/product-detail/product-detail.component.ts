@@ -71,16 +71,36 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  get isOutOfStock(): boolean {
+    const noQuantity =
+      this.product.quantity === 0 ||
+      this.product.quantity === null ||
+      this.product.quantity === undefined;
+
+    const noSizes = this.product.available_sizes?.length === 0;
+
+    return noQuantity || noSizes;
+  }
+
   addToCart() {
     this.validationMsg = '';
 
-    if (!this.selectedColor || !this.selectedSize) {
-      this.validationMsg =
-        'Please select a color and size before adding to cart.';
+    if (this.isOutOfStock) {
+      this.validationMsg = 'This product is out of stock.';
       return;
     }
 
-    if (this.selectedQuantity <= 0) {
+    if (this.product.available_colors?.length && !this.selectedColor) {
+      this.validationMsg = 'Please select a color.';
+      return;
+    }
+
+    if (this.product.available_sizes?.length && !this.selectedSize) {
+      this.validationMsg = 'Please select a size.';
+      return;
+    }
+
+    if (this.product.quantity && this.selectedQuantity <= 0) {
       this.validationMsg = 'Please select a valid quantity.';
       return;
     }
@@ -88,10 +108,17 @@ export class ProductDetailComponent implements OnInit {
     this.cartService
       .addToCart(
         this.productId,
-        this.selectedColor,
-        this.selectedSize,
-        this.selectedQuantity
+        this.selectedColor || '',
+        this.selectedSize || '',
+        this.selectedQuantity || 1
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.validationMsg = '';
+        },
+        error: () => {
+          this.validationMsg = 'Failed to add item to cart.';
+        },
+      });
   }
 }

@@ -58,9 +58,14 @@
       </select>
     </div>
     <div *ngIf="validationMsg" class="error_msg">{{ validationMsg }}</div>
-    <div class="add_to_cart" (click)="addToCart()">
+    <div
+      class="add_to_cart"
+      [class.disabled]="isOutOfStock"
+      (click)="addToCart()"
+    >
       <img src="/white-cart.png" alt="cart" />
-      <span>Add To Cart</span>
+      <span *ngIf="!isOutOfStock">Add To Cart</span>
+      <span *ngIf="isOutOfStock">Out of Stock</span>
     </div>
     <div class="seperator"></div>
     <div class="details">
