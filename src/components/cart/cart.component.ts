@@ -59,10 +59,13 @@ export class CartComponent implements OnInit {
     }
   }
 
-  removeItem(productId: number) {
-    this.cartService.removeFromCart(productId).subscribe(() => {
-      this.fetchFromCart();
-    });
+  // removeItem(productId: number) {
+  //   this.cartService.removeFromCart(productId).subscribe(() => {
+  //     this.fetchFromCart();
+  //   });
+  // }
+  removeItem(item: any) {
+    this.cartService.removeFromCart(item.id, item.color, item.size).subscribe();
   }
   checkout() {
     this.cartService.checkout().subscribe({

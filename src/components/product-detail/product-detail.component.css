@@ -94,6 +94,7 @@ select {
   background-color: #ff4000;
   justify-content: center;
   color: white;
+  cursor: pointer;
 }
 .seperator {
   max-width: 704px;

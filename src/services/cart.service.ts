@@ -72,14 +72,15 @@ export class CartService {
       );
   }
 
-  removeFromCart(productId: number): Observable<any> {
+  removeFromCart(
+    productId: number,
+    color: string,
+    size: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/products/${productId}?color=${color}&size=${size}`;
     return this.http
-      .delete(`${this.apiUrl}/products/${productId}`, this.getAuthHeaders())
-      .pipe(
-        tap(() => {
-          this.fetchCart(); // ✅ Refresh cart automatically
-        })
-      );
+      .delete(url, this.getAuthHeaders())
+      .pipe(tap(() => this.fetchCart()));
   }
 
   checkout(): Observable<any> {
