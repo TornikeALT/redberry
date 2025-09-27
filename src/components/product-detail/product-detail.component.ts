@@ -20,6 +20,7 @@ export class ProductDetailComponent implements OnInit {
   selectedQuantity: number = 1;
   previousPage: number = 1;
   productId!: number;
+  validationMsg: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -71,11 +72,16 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    if (
-      !this.selectedColor ||
-      !this.selectedSize ||
-      this.selectedQuantity <= 0
-    ) {
+    this.validationMsg = '';
+
+    if (!this.selectedColor || !this.selectedSize) {
+      this.validationMsg =
+        'Please select a color and size before adding to cart.';
+      return;
+    }
+
+    if (this.selectedQuantity <= 0) {
+      this.validationMsg = 'Please select a valid quantity.';
       return;
     }
 

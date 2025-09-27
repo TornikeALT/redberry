@@ -57,6 +57,7 @@
         </option>
       </select>
     </div>
+    <div *ngIf="validationMsg" class="error_msg">{{ validationMsg }}</div>
     <div class="add_to_cart" (click)="addToCart()">
       <img src="/white-cart.png" alt="cart" />
       <span>Add To Cart</span>

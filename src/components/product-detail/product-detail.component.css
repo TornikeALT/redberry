@@ -130,3 +130,8 @@ select {
 .big_red_cart {
   position: relative;
 }
+.error_msg {
+  color: red;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
