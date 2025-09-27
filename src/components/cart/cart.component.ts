@@ -1,0 +1,78 @@
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { CartService } from '../../services/cart.service';
+
+@Component({
+  selector: 'app-cart',
+  imports: [CommonModule],
+  templateUrl: './cart.component.html',
+  styleUrl: './cart.component.css',
+})
+export class CartComponent implements OnInit {
+  @Input() isCartOpen: boolean = false;
+  cart: any[] = [];
+  loading = false;
+  errMsg: string = '';
+
+  constructor(private cartService: CartService) {}
+  ngOnInit(): void {
+    this.cartService.cart$.subscribe((cart) => {
+      this.cart = cart;
+    });
+  }
+
+  fetchFromCart() {
+    this.loading = true;
+    this.cartService.fetchCart();
+    this.cartService.cart$.subscribe({
+      next: (cart) => {
+        this.cart = cart;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.errMsg = 'Failed to load items from cart';
+        this.loading = false;
+      },
+    });
+  }
+
+  increaseQuantity(product: any) {
+    this.cartService
+      .updateCart(product.id, product.color, product.size, product.quantity + 1)
+      .subscribe(() => {
+        this.fetchFromCart();
+      });
+  }
+
+  decreaseQuantity(product: any) {
+    if (product.quantity > 1) {
+      this.cartService
+        .updateCart(
+          product.id,
+          product.color,
+          product.size,
+          product.quantity - 1
+        )
+        .subscribe(() => {
+          this.fetchFromCart();
+        });
+    }
+  }
+
+  removeItem(productId: number) {
+    this.cartService.removeFromCart(productId).subscribe(() => {
+      this.fetchFromCart();
+    });
+  }
+  checkout() {
+    this.cartService.checkout().subscribe({
+      next: (res) => {
+        alert('Checkout successful!');
+        this.cart = [];
+      },
+      error: (err) => {
+        alert('Checkout failed!');
+      },
+    });
+  }
+}

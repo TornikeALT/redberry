@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FetchProductsService } from '../../services/fetch-products.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,14 +19,17 @@ export class ProductDetailComponent implements OnInit {
   selectedSize: string | null = null;
   selectedQuantity: number = 1;
   previousPage: number = 1;
+  productId!: number;
 
   constructor(
     private route: ActivatedRoute,
     private productService: FetchProductsService,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    this.productId = +this.route.snapshot.paramMap.get('id')!;
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const page = Number(this.route.snapshot.queryParamMap.get('page'));
     this.previousPage = page || 1;
@@ -65,5 +69,24 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/products'], {
       queryParams: { page: this.previousPage },
     });
+  }
+
+  addToCart() {
+    if (
+      !this.selectedColor ||
+      !this.selectedSize ||
+      this.selectedQuantity <= 0
+    ) {
+      return; // just exit silently if selection is incomplete
+    }
+
+    this.cartService
+      .addToCart(
+        this.productId,
+        this.selectedColor,
+        this.selectedSize,
+        this.selectedQuantity
+      )
+      .subscribe(); // no logs or alerts needed
   }
 }
