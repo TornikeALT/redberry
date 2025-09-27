@@ -42,6 +42,31 @@ export class CheckoutComponent {
       0
     );
   }
+  increaseQuantity(item: any) {
+    this.cartService
+      .updateCart(item.id, item.color, item.size, item.quantity + 1)
+      .subscribe(() => {
+        this.calculateTotal();
+      });
+  }
+
+  decreaseQuantity(item: any) {
+    if (item.quantity > 1) {
+      this.cartService
+        .updateCart(item.id, item.color, item.size, item.quantity - 1)
+        .subscribe(() => {
+          this.calculateTotal();
+        });
+    }
+  }
+
+  removeItem(item: any) {
+    this.cartService
+      .removeFromCart(item.id, item.color, item.size)
+      .subscribe(() => {
+        this.calculateTotal();
+      });
+  }
 
   checkout() {
     if (!this.email) {

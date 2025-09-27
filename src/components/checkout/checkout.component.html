@@ -55,15 +55,15 @@
           <p>Color: {{ item.color }}</p>
           <p>Size: {{ item.size }}</p>
           <div class="item_actions">
-            <img src="/minus.png" />
+            <img src="/minus.png" (click)="decreaseQuantity(item)" />
             <span>{{ item.quantity }}</span>
-            <img src="/plus.png" />
+            <img src="/plus.png" (click)="increaseQuantity(item)" />
           </div>
         </div>
       </div>
       <div class="remove_item">
         <p>${{ item.price }}</p>
-        <button class="remove_btn">Remove</button>
+        <button class="remove_btn" (click)="removeItem(item)">Remove</button>
       </div>
     </div>
 
