@@ -8,12 +8,10 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class CartService {
   private apiUrl = 'https://api.redseam.redberryinternship.ge/api/cart';
 
-  // BehaviorSubject to hold cart items and share across components
   private cartSubject = new BehaviorSubject<any[]>([]);
   cart$ = this.cartSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Fetch initial cart if user is logged in
     this.fetchCart();
   }
 
@@ -26,18 +24,16 @@ export class CartService {
     };
   }
 
-  // Fetch cart from API and update BehaviorSubject
   fetchCart(): void {
     this.http.get<any[]>(this.apiUrl, this.getAuthHeaders()).subscribe({
       next: (cart) => this.cartSubject.next(cart),
       error: (err) => {
         console.error('Failed to fetch cart', err);
-        this.cartSubject.next([]); // clear cart on error
+        this.cartSubject.next([]);
       },
     });
   }
 
-  // Add item to cart and refresh cart
   addToCart(
     id: number,
     color: string,
@@ -52,12 +48,11 @@ export class CartService {
       )
       .pipe(
         tap(() => {
-          this.fetchCart(); // ✅ Refresh cart automatically
+          this.fetchCart();
         })
       );
   }
 
-  // Update item in cart and refresh cart
   updateCart(
     productId: number,
     color: string,
@@ -72,12 +67,11 @@ export class CartService {
       )
       .pipe(
         tap(() => {
-          this.fetchCart(); // ✅ Refresh cart automatically
+          this.fetchCart();
         })
       );
   }
 
-  // Remove item from cart and refresh cart
   removeFromCart(productId: number): Observable<any> {
     return this.http
       .delete(`${this.apiUrl}/products/${productId}`, this.getAuthHeaders())
@@ -88,13 +82,12 @@ export class CartService {
       );
   }
 
-  // Checkout and clear cart
   checkout(): Observable<any> {
     return this.http
       .post(`${this.apiUrl}/checkout`, {}, this.getAuthHeaders())
       .pipe(
         tap({
-          next: () => this.cartSubject.next([]), // clear local cart on successful checkout
+          next: () => this.cartSubject.next([]),
         })
       );
   }
