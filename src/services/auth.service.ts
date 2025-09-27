@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -38,9 +38,17 @@ export class AuthService {
   // register zevit
 
   login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(this.loginUrl, credentials);
+    return this.http.post(this.loginUrl, credentials).pipe(
+      tap((res: any) => {
+        if (res.token) {
+          this.setToken(res.token);
+        }
+        if (res.user?.email) {
+          localStorage.setItem('userEmail', res.user.email);
+        }
+      })
+    );
   }
-
   setToken(token: string) {
     localStorage.setItem('token', token);
     this.loggedIn$.next(true);

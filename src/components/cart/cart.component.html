@@ -36,7 +36,7 @@
         <span>$ {{ totalPrice + 5 }}</span>
       </div>
     </div>
-    <button (click)="checkout()" class="checkout_btn">Checkout</button>
+    <a routerLink="/checkout" class="checkout_btn">Checkout</a>
   </div>
   <div *ngIf="cart.length === 0">
     <div>

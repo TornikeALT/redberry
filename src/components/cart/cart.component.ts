@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -15,9 +16,11 @@ export class CartComponent implements OnInit {
   errMsg: string = '';
   totalItems: number = 0;
   totalPrice: number = 0;
+  userEmail: string = '';
 
   constructor(private cartService: CartService) {}
   ngOnInit(): void {
+    this.userEmail = localStorage.getItem('userEmail') || '';
     this.cartService.cart$.subscribe((cart) => {
       this.cart = cart;
       this.calculateTotal();
@@ -66,12 +69,24 @@ export class CartComponent implements OnInit {
     this.cartService.removeFromCart(item.id, item.color, item.size).subscribe();
   }
   checkout() {
-    this.cartService.checkout().subscribe({
-      next: (res) => {
+    if (this.cart.length === 0) {
+      alert('Cart is empty!');
+      return;
+    }
+
+    const email = localStorage.getItem('userEmail');
+    if (!email) {
+      alert('Email not found!');
+      return;
+    }
+
+    this.cartService.checkout(email).subscribe({
+      next: () => {
         alert('Checkout successful!');
         this.cart = [];
       },
       error: (err) => {
+        console.error('Checkout error:', err);
         alert('Checkout failed!');
       },
     });
