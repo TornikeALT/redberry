@@ -1,16 +1,89 @@
-<div class="checkout_wrapper">
-  <h1>Checkout</h1>
-  <div>
-    <form>
-      <div class="name_surname">
-        <input type="text" name="name" id="name" placeholder="Name" />
-        <input type="text" name="surname" id="surname" placeholder="surname" />
+<h1>Checkout</h1>
+<div class="checkout_page">
+  <!-- Left side: Form -->
+  <div class="checkout_form">
+    <div>
+      <h3>Order Details</h3>
+      <form>
+        <div class="name_surname">
+          <input
+            type="text"
+            placeholder="Name"
+            [(ngModel)]="name"
+            name="name"
+          />
+          <input
+            type="text"
+            placeholder="Surname"
+            [(ngModel)]="surname"
+            name="surname"
+          />
+        </div>
+        <input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="email"
+          name="email"
+          class="email"
+        />
+
+        <div class="address_zip">
+          <input
+            type="text"
+            placeholder="Address"
+            [(ngModel)]="address"
+            name="address"
+          />
+          <input
+            type="text"
+            placeholder="ZIP code"
+            [(ngModel)]="zip"
+            name="zip"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right side: Cart summary -->
+  <div class="checkout_cart">
+    <div *ngFor="let item of cart" class="item">
+      <img [src]="item.cover_image" alt="{{ item.name }}" class="item_img" />
+      <div>
+        <div class="actions_wrapper">
+          <h4>{{ item.name }}</h4>
+          <p>Color: {{ item.color }}</p>
+          <p>Size: {{ item.size }}</p>
+          <div class="item_actions">
+            <img src="/minus.png" />
+            <span>{{ item.quantity }}</span>
+            <img src="/plus.png" />
+          </div>
+        </div>
       </div>
-      <input type="email" name="email" id="email" placeholder="Email" />
-      <div class="name_surname">
-        <input type="text" name="adress" id="adress" placeholder="Adress" />
-        <input type="number" name="zip" id="zip" placeholder="zip code" />
+      <div class="remove_item">
+        <p>${{ item.price }}</p>
+        <button class="remove_btn">Remove</button>
       </div>
-    </form>
+    </div>
+
+    <div class="cart_totals">
+      <div class="checkout_wrapper">
+        <div class="total_items">
+          <span>Item Subtotal</span>
+          <span>$ {{ totalPrice }}</span>
+        </div>
+        <div class="delivery">
+          <span>Delivery</span>
+          <span>$ 5</span>
+        </div>
+        <div class="total_price">
+          <span>Total</span>
+          <span>$ {{ totalPrice + 5 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="checkout()" class="checkout_btn">Pay</button>
   </div>
 </div>
