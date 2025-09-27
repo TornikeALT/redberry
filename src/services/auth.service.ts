@@ -9,6 +9,10 @@ export class AuthService {
   private loginUrl = 'https://api.redseam.redberryinternship.ge/api/login';
   private loggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
 
+  private setUserEmail(email: string) {
+    localStorage.setItem('userEmail', email);
+  }
+
   constructor(private http: HttpClient) {}
 
   //  Register
@@ -29,10 +33,18 @@ export class AuthService {
       formData.append('avatar', data.avatar);
     }
 
-    return this.http.post(
-      'https://api.redseam.redberryinternship.ge/api/register',
-      formData
-    );
+    return this.http
+      .post('https://api.redseam.redberryinternship.ge/api/register', formData)
+      .pipe(
+        tap((res: any) => {
+          if (res.token) {
+            this.setToken(res.token);
+          }
+          if (res.user?.email) {
+            this.setUserEmail(res.user.email);
+          }
+        })
+      );
   }
 
   // register zevit

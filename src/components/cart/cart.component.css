@@ -132,4 +132,7 @@
   background: var(--red);
   color: white;
   cursor: pointer;
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
 }
