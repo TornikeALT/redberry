@@ -127,3 +127,6 @@ select {
   background-color: transparent;
   cursor: pointer;
 }
+.big_red_cart {
+  position: relative;
+}

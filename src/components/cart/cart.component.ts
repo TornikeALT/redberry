@@ -13,11 +13,14 @@ export class CartComponent implements OnInit {
   cart: any[] = [];
   loading = false;
   errMsg: string = '';
+  totalItems: number = 0;
+  totalPrice: number = 0;
 
   constructor(private cartService: CartService) {}
   ngOnInit(): void {
     this.cartService.cart$.subscribe((cart) => {
       this.cart = cart;
+      this.calculateTotal();
     });
   }
 
@@ -59,11 +62,6 @@ export class CartComponent implements OnInit {
     }
   }
 
-  // removeItem(productId: number) {
-  //   this.cartService.removeFromCart(productId).subscribe(() => {
-  //     this.fetchFromCart();
-  //   });
-  // }
   removeItem(item: any) {
     this.cartService.removeFromCart(item.id, item.color, item.size).subscribe();
   }
@@ -77,5 +75,12 @@ export class CartComponent implements OnInit {
         alert('Checkout failed!');
       },
     });
+  }
+  calculateTotal() {
+    this.totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    this.totalPrice = this.cart.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0
+    );
   }
 }

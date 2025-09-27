@@ -1,27 +1,55 @@
-<!-- <div *ngIf="loading">Loading...</div>
-<div *ngIf="!loading && cart.length === 0">Your cart is empty.</div> -->
-
-<div *ngIf="!loading && cart.length > 0 && isCartOpen" class="cart-modal">
-  <div *ngIf="!loading && cart.length > 0">
-    <div *ngFor="let item of cart" class="cart-item">
-      <img [src]="item.cover_image" alt="product image" />
-      <div>
+<div *ngIf="isCartOpen" class="cart-modal">
+  <div *ngIf="!loading && cart.length > 0" class="cart_items_wrapper">
+    <h2>Shopping cart ({{ totalItems }})</h2>
+    <div *ngFor="let item of cart" class="cart_item">
+      <div class="cover_image_border">
+        <img [src]="item.cover_image" alt="product image" />
+      </div>
+      <div class="item_props">
         <h4>{{ item.name }}</h4>
-        <p>{{ item.description }}</p>
-        <p>Color: {{ item.color }} | Size: {{ item.size }}</p>
-        <p>Price: {{ item.price }} x {{ item.quantity }}</p>
-        <div>
-          <button (click)="decreaseQuantity(item)">-</button>
+        <p>{{ item.color }}</p>
+        <p>{{ item.size }}</p>
+        <div class="item_actions">
+          <img src="/minus.png" (click)="decreaseQuantity(item)" />
           <span>{{ item.quantity }}</span>
-          <button (click)="increaseQuantity(item)">+</button>
+          <img src="/plus.png" (click)="increaseQuantity(item)" />
         </div>
+      </div>
+      <div class="remove_item">
+        <p>${{ item.price }}</p>
         <button (click)="removeItem(item)">Remove</button>
       </div>
     </div>
-
-    <hr />
-    <div class="checkout">
-      <button (click)="checkout()">Checkout</button>
+  </div>
+  <div class="checkout" *ngIf="cart.length">
+    <div class="checkout_wrapper">
+      <div class="total_items">
+        <span>Item Subtotal</span>
+        <span>$ {{ totalPrice }}</span>
+      </div>
+      <div class="delivery">
+        <span>Delivery</span>
+        <span>$ 5</span>
+      </div>
+      <div class="total_price">
+        <span>Total</span>
+        <span>$ {{ totalPrice + 5 }}</span>
+      </div>
+    </div>
+    <button (click)="checkout()" class="checkout_btn">Checkout</button>
+  </div>
+  <div *ngIf="cart.length === 0">
+    <div>
+      <h2>Shopping Cart ({{ totalItems }})</h2>
+    </div>
+    <div class="no_items">
+      <div class="big_red_cart">
+        <img src="/big-cart.png" alt="big red cart" />
+        <img src="/cart-dots.png" alt="red cart dots" class="red_dots" />
+      </div>
+      <h3>Ooops!</h3>
+      <p class="nothing">You`ve got nothing in your cart just yet..</p>
+      <button class="start_shopping">Start Shopping</button>
     </div>
   </div>
 </div>
