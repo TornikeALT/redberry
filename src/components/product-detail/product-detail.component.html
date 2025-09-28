@@ -1,0 +1,84 @@
+<div *ngIf="loading">Loading product...</div>
+<button
+  type="button"
+  class="back_btn"
+  (click)="goBack()"
+  *ngIf="!loading && product"
+>
+  Listing / Product
+</button>
+<div *ngIf="!loading && product" class="product_details">
+  <div class="prev_images">
+    <img
+      *ngFor="let img of product.images"
+      [src]="img"
+      alt="images"
+      (click)="
+        mainImage = img;
+        selectedColor = product.available_colors[product.images.indexOf(img)]
+      "
+      [class.selected]="mainImage === img"
+    />
+  </div>
+  <img [src]="mainImage" alt="{{ product.cover_image }}" class="main_image" />
+  <div class="description">
+    <h2 class="product_name">{{ product.name }}</h2>
+    <p class="product_price">$ {{ product.price }}</p>
+    <span class="color_title">Color: {{ selectedColor }}</span>
+    <div class="colors_wrapper">
+      <div
+        class="color_outer"
+        *ngFor="let color of product.available_colors"
+        (click)="selectColor(color)"
+        [class.active]="selectedColor === color"
+      >
+        <div class="color" [style.background-color]="color"></div>
+      </div>
+    </div>
+    <span>Size: {{ selectedSize }}</span>
+    <div class="sizes_wrapper">
+      <div
+        *ngFor="let size of product.available_sizes"
+        (click)="selectSize(size)"
+        class="size"
+        [class.border]="selectedSize === size"
+      >
+        {{ size }}
+      </div>
+    </div>
+    <span>Quantity</span>
+    <div class="quantity_selector" *ngIf="product.quantity">
+      <select id="quantity" [(ngModel)]="selectedQuantity">
+        <option
+          *ngFor="let qty of getAvailableQuantities(product.quantity)"
+          [value]="qty"
+        >
+          {{ qty }}
+        </option>
+      </select>
+    </div>
+    <div *ngIf="validationMsg" class="error_msg">{{ validationMsg }}</div>
+    <div
+      class="add_to_cart"
+      [class.disabled]="isOutOfStock"
+      (click)="addToCart()"
+    >
+      <img src="/white-cart.png" alt="cart" />
+      <span *ngIf="!isOutOfStock">Add To Cart</span>
+      <span *ngIf="isOutOfStock">Out of Stock</span>
+    </div>
+    <div class="seperator"></div>
+    <div class="details">
+      <div class="details_img">
+        <h2>Details</h2>
+        <img src="{{ product.brand.image }}" alt="{{ product.brand.image }}" />
+      </div>
+      <span class="brand">Brand: {{ product.brand.name }}</span>
+      <p class="desc">{{ product.description }}</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading && !product">
+  <p>Product not found.</p>
+</div>

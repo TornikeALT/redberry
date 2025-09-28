@@ -1,0 +1,41 @@
+<div class="login">
+  <img src="/login.png" alt="fashin couple walking" class="login_img" />
+  <div class="login_form">
+    <h1 class="login_title">Log in</h1>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <input
+        type="email"
+        placeholder="email *"
+        [(ngModel)]="email"
+        name="email"
+        email
+        required
+      />
+      <div class="password_container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Password *"
+          [(ngModel)]="password"
+          name="password"
+          id="password"
+        />
+        <img
+          src="/eye.png"
+          alt="Show Password"
+          class="eye_icon"
+          (mousedown)="showPassword = true"
+          (mouseup)="showPassword = false"
+          (mouseleave)="showPassword = false"
+        />
+      </div>
+      <button type="submit" class="login_btn">Log In</button>
+    </form>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    <div class="not_member">
+      <p>Not a member ?</p>
+      <a routerLink="/register">Register</a>
+    </div>
+  </div>
+</div>
