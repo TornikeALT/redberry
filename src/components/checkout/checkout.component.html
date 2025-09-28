@@ -37,10 +37,11 @@
           <input
             type="text"
             placeholder="ZIP code"
-            [(ngModel)]="zip"
+            [(ngModel)]="zip_code"
             name="zip"
           />
         </div>
+        <div *ngIf="errMsg" class="err_msg">{{ errMsg }}</div>
       </form>
     </div>
   </div>
@@ -84,6 +85,6 @@
       </div>
     </div>
 
-    <button (click)="checkout()" class="checkout_btn">Pay</button>
+    <button (click)="handleCheckout()" class="checkout_btn">Pay</button>
   </div>
 </div>

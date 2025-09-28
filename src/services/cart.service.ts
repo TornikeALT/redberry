@@ -83,9 +83,18 @@ export class CartService {
       .pipe(tap(() => this.fetchCart()));
   }
 
-  checkout(email: string): Observable<any> {
+  checkout(data: {
+    name: string;
+    surname: string;
+    email: string;
+    address: string;
+    zip_code: string;
+  }): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/checkout`, { email }, this.getAuthHeaders())
+      .post(`${this.apiUrl}/checkout`, data, this.getAuthHeaders())
       .pipe(tap(() => this.cartSubject.next([])));
+  }
+  clearCart() {
+    this.cartSubject.next([]);
   }
 }

@@ -68,29 +68,7 @@ export class CartComponent implements OnInit {
   removeItem(item: any) {
     this.cartService.removeFromCart(item.id, item.color, item.size).subscribe();
   }
-  checkout() {
-    if (this.cart.length === 0) {
-      alert('Cart is empty!');
-      return;
-    }
 
-    const email = localStorage.getItem('userEmail');
-    if (!email) {
-      alert('Email not found!');
-      return;
-    }
-
-    this.cartService.checkout(email).subscribe({
-      next: () => {
-        alert('Checkout successful!');
-        this.cart = [];
-      },
-      error: (err) => {
-        console.error('Checkout error:', err);
-        alert('Checkout failed!');
-      },
-    });
-  }
   calculateTotal() {
     this.totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
     this.totalPrice = this.cart.reduce(

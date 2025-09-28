@@ -139,3 +139,7 @@ form {
   display: flex;
   justify-content: space-between;
 }
+.err_msg {
+  margin-top: 1rem;
+  color: red;
+}

@@ -5,6 +5,7 @@ import { RegisterComponent } from '../components/register/register.component';
 import { ProductDetailComponent } from '../components/product-detail/product-detail.component';
 import { LoginGuard } from '../guard/login.guard';
 import { CheckoutComponent } from '../components/checkout/checkout.component';
+import { SuccessComponent } from '../components/success/success.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' },
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+  { path: 'success', component: SuccessComponent },
 ];

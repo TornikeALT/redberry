@@ -3,6 +3,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -13,26 +14,25 @@ import { FormsModule } from '@angular/forms';
 export class CheckoutComponent {
   cart: any[] = [];
   totalPrice: number = 0;
-
   name: string = '';
   surname: string = '';
   address: string = '';
-  zip: string = '';
+  zip_code: string = '';
   email: string = '';
+  errMsg: string = '';
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Get cart items
     this.cartService.cart$.subscribe((cart) => {
       this.cart = cart;
       this.calculateTotal();
     });
 
-    // Get user email from local storage or auth service
     this.email = localStorage.getItem('userEmail') || '';
   }
 
@@ -67,25 +67,35 @@ export class CheckoutComponent {
         this.calculateTotal();
       });
   }
-
-  checkout() {
-    if (!this.email) {
-      alert('Email not found!');
+  handleCheckout() {
+    if (
+      !this.name ||
+      !this.surname ||
+      !this.email ||
+      !this.address ||
+      !this.zip_code
+    ) {
+      this.errMsg = 'Please fill in all required fields';
       return;
     }
-    if (this.cart.length === 0) {
-      alert('Cart is empty!');
-      return;
-    }
 
-    this.cartService.checkout(this.email).subscribe({
+    const checkoutData = {
+      name: this.name,
+      surname: this.surname,
+      email: this.email,
+      address: this.address,
+      zip_code: this.zip_code,
+    };
+
+    this.cartService.checkout(checkoutData).subscribe({
       next: () => {
-        alert('Checkout successful!');
-        this.cart = [];
+        this.cartService.clearCart();
+        this.router.navigate(['/success'], {
+          state: { message: 'Your order was placed successfully!' },
+        });
       },
       error: (err) => {
-        console.error(err);
-        alert('Checkout failed!');
+        console.error('checkout error:', err);
       },
     });
   }
